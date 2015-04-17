@@ -29,6 +29,3 @@ ENV WINEARCH win32
 # Install .NET Framework 4.0
 WORKDIR /home/xclient
 RUN wine wineboot && winetricks --unattended dotnet40
-
-# During startup we need to prepare connection to X11-Server container
-#ENTRYPOINT ["/entrypoint.sh"]
