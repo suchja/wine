@@ -1,7 +1,9 @@
 FROM suchja/x11client:latest
 MAINTAINER Jan Suchotzki <jan@suchotzki.de>
 
-# Inspired by monokrome/wine and justmoon/docker-wix
+# Inspired by monokrome/wine
+
+USER root
 
 # winetricks is located in the contrib repository
 RUN echo "deb http://http.debian.net/debian jessie contrib" > /etc/apt/sources.list.d/contrib.list
@@ -25,7 +27,7 @@ ENV WINEPREFIX /home/xclient/.wine
 ENV WINEARCH win32
 
 # Install .NET Framework 4.0
-WORKDIR /home/wix
+WORKDIR /home/xclient
 RUN wine wineboot && winetricks --unattended dotnet40
 
 # During startup we need to prepare connection to X11-Server container
