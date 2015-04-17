@@ -10,6 +10,7 @@ RUN echo "deb http://http.debian.net/debian jessie contrib" > /etc/apt/sources.l
 
 # Install wine and related packages
 RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y --no-install-recommends \
+				curl \
 				unzip \
 				msttcorefonts \
 				wine \
@@ -26,6 +27,5 @@ ENV HOME /home/xclient
 ENV WINEPREFIX /home/xclient/.wine
 ENV WINEARCH win32
 
-# Install .NET Framework 4.0
+# Use xclient's home dir as working dir
 WORKDIR /home/xclient
-RUN wine wineboot && winetricks --unattended dotnet40
