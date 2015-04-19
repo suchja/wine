@@ -9,7 +9,9 @@ USER root
 RUN echo "deb http://http.debian.net/debian jessie contrib" > /etc/apt/sources.list.d/contrib.list
 
 # Install wine and related packages
-RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y --no-install-recommends \
+RUN dpkg --add-architecture i386 \
+		&& apt-get update \
+		&& apt-get install -y --no-install-recommends \
 				curl \
 				unzip \
 				msttcorefonts \
@@ -21,6 +23,11 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y --no-in
 RUN curl -SL 'http://winetricks.org/winetricks' -o /usr/local/bin/winetricks \
 		&& chmod +x /usr/local/bin/winetricks
 
+# Get latest version of mono for wine
+RUN mkdir -p /usr/share/wine/mono \
+	&& curl -SL 'http://source.winehq.org/winemono.php' -o /usr/share/wine/mono/wine-mono-4.5.6.msi \
+	&& chmod +x /usr/share/wine/mono/wine-mono-4.5.6.msi
+
 # Wine really doesn't like to be run as root, so let's use a non-root user
 USER xclient
 ENV HOME /home/xclient
@@ -29,3 +36,5 @@ ENV WINEARCH win32
 
 # Use xclient's home dir as working dir
 WORKDIR /home/xclient
+
+RUN echo "alias winegui='wine explorer /desktop=DockerDesktop,1024x768'" > ~/.bash_aliases 
