@@ -25,8 +25,8 @@ RUN curl -SL 'http://winetricks.org/winetricks' -o /usr/local/bin/winetricks \
 
 # Get latest version of mono for wine
 RUN mkdir -p /usr/share/wine/mono \
-	&& curl -SL 'http://source.winehq.org/winemono.php' -o /usr/share/wine/mono/wine-mono-4.5.6.msi \
-	&& chmod +x /usr/share/wine/mono/wine-mono-4.5.6.msi
+	&& curl -SL 'http://sourceforge.net/projects/wine/files/Wine%20Mono/0.0.8/wine-mono-0.0.8.msi/download' -o /usr/share/wine/mono/wine-mono-0.0.8.msi \
+	&& chmod +x /usr/share/wine/mono/wine-mono-0.0.8.msi
 
 # Wine really doesn't like to be run as root, so let's use a non-root user
 USER xclient
