@@ -2,7 +2,7 @@ FROM suchja/x11client:latest
 MAINTAINER Jan Suchotzki <jan@suchotzki.de>
 
 # Inspired by monokrome/wine
-
+ENV WINE_MONO_VERSION 0.0.8
 USER root
 
 # winetricks is located in the contrib repository
@@ -25,8 +25,8 @@ RUN curl -SL 'http://winetricks.org/winetricks' -o /usr/local/bin/winetricks \
 
 # Get latest version of mono for wine
 RUN mkdir -p /usr/share/wine/mono \
-	&& curl -SL 'http://sourceforge.net/projects/wine/files/Wine%20Mono/0.0.8/wine-mono-0.0.8.msi/download' -o /usr/share/wine/mono/wine-mono-0.0.8.msi \
-	&& chmod +x /usr/share/wine/mono/wine-mono-0.0.8.msi
+	&& curl -SL 'http://sourceforge.net/projects/wine/files/Wine%20Mono/$WINE_MONO_VERSION/wine-mono-$WINE_MONO_VERSION.msi/download' -o /usr/share/wine/mono/wine-mono-$WINE_MONO_VERSION.msi \
+	&& chmod +x /usr/share/wine/mono/wine-mono-$WINE_MONO_VERSION.msi
 
 # Wine really doesn't like to be run as root, so let's use a non-root user
 USER xclient
