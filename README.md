@@ -61,4 +61,4 @@ I do not have a dedicated maintenance schedule for this image. In case a new sta
 If you experience any problems with the image, open up an issue on the [source repository](https://github.com/suchja/wine). I'll look into it as soon as possible.
 
 ##Copyright free
-The sources in [this](https://github.com/suchja/wix-toolset.git) Github repository, from which the docker image is build, are copyright free (see LICENSE.md). Thus you are allowed to use these sources (e.g. Dockerfile and README.md) in which ever way you like.
+The sources in [this](https://github.com/suchja/wine) Github repository, from which the docker image is build, are copyright free (see LICENSE.md). Thus you are allowed to use these sources (e.g. Dockerfile and README.md) in which ever way you like.
