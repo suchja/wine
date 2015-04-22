@@ -1,7 +1,20 @@
 ##About
+Have you ever wanted to run an application for Microsoft Windows in a Docker container? I did and that is what you can use this image for.
+
+My motivation for this image was to be able to create windows installer packages (known as MSI). Thus I'm using this image as a base image for [suchja/wix](https://registry.hub.docker.com/u/suchja/wix/). I'm sure that there are lots of other use cases. If you have one, please leave a comment on the docker hub repository for this image.
+
+###Provided core packages
+This image provides the following core packages in addition to the ones contained in the parent image(s):
+- [Wine](https://www.winehq.org) - Allows you to run applications developed for Microsoft Windows on a Linux machine
+- [winetricks](http://www.winetricks.org) - Tool to install and update some of the important packages for Wine (e.g. .NET Framework)
 A Docker Image providing [Wine](https://www.winehq.org) and the latest version of [winetricks](http://www.winetricks.org).
 
-When running a container from this image and linked to a container based on [suchja/x11server](https://registry.hub.docker.com/u/suchja/x11server/), all graphical output from wine can be seen via VNC client.
+###Docker image structure
+I'm a big fan of the *separation of concerns (SoC)* principle. Therefore I try to create Dockerfiles with mainly one responsibility. Thus it happens that an image is using a base image, which is using another base image, ... Here you see all the base images used for this image:
+
+>[ubuntu:14.04](https://github.com/tianon/docker-brew-ubuntu-core/blob/7fef77c821d7f806373c04675358ac6179eaeaf3/trusty/Dockerfile) The base ubuntu 14.04 (aka Trusty) image from docker library
+>>[suchja/x11client](https://registry.hub.docker.com/u/suchja/x11client/dockerfile/) Allows to display any X Window content in a separate container ([suchja/x11server](https://registry.hub.docker.com/u/suchja/x11server/))
+>>>[suchja/wine](https://registry.hub.docker.com/u/suchja/wine/dockerfile/) This image
 
 ##Usage
 Starting a container from this image can be done as follows:
