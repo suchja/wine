@@ -3,6 +3,14 @@ Have you ever wanted to run an application for Microsoft Windows in a Docker con
 
 My motivation for this image was to be able to create windows installer packages (known as MSI). Thus I'm using this image as a base image for [suchja/wix](https://registry.hub.docker.com/u/suchja/wix/). I'm sure that there are lots of other use cases. If you have one, please leave a comment on the [docker hub repository for this image](https://registry.hub.docker.com/u/suchja/wine/).
 
+###Tags
+This image is provided to you in different versions. You can pull those versions from docker hub by specifying the appropriate tag:
+
+- `suchja/wine:latest` - Provides the latest stable release of wine (currently 1.6.2) based on a `debian:jessie` base image. Although this is the latest stable release of wine, it is quite old (around 2 years). Thus not everything will properly work. **Docker images size: around 480MB**
+- `suchja/wine:dev1.7.38` - Provides one of the most recent development releases of wine (version 1.7.38 from March 6, 2015). Wine seems to be best supported on Ubuntu. Thus up to date development releases are easily accessible for Ubunut users, but somehow difficult to get for Debian users. Therefore this image is based on `ubuntu:14.04`. **Docker image size: around 850MB**
+
+I'm working on a proper solution to base the stable and the development release on the same linux distribution. As I'm in favour of `debian:jessie`, I'm trying to get an up to date development release of wine for it. 
+
 ###Provided core packages
 This image provides the following core packages in addition to the ones contained in the parent image(s):
 - [Wine](https://www.winehq.org) - Allows you to run applications developed for Microsoft Windows on a Linux machine
