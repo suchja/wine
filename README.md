@@ -1,7 +1,7 @@
 ##About
 Have you ever wanted to run an application for Microsoft Windows in a Docker container? I did and that is what you can use this image for.
 
-My motivation for this image was to be able to create windows installer packages (known as MSI). Thus I'm using this image as a base image for [suchja/wix](https://registry.hub.docker.com/u/suchja/wix/). I'm sure that there are lots of other use cases. If you have one, please leave a comment on the docker hub repository for this image.
+My motivation for this image was to be able to create windows installer packages (known as MSI). Thus I'm using this image as a base image for [suchja/wix](https://registry.hub.docker.com/u/suchja/wix/). I'm sure that there are lots of other use cases. If you have one, please leave a comment on the [docker hub repository for this image](https://registry.hub.docker.com/u/suchja/wine/).
 
 ###Provided core packages
 This image provides the following core packages in addition to the ones contained in the parent image(s):
