@@ -5,16 +5,16 @@ MAINTAINER Jan Suchotzki <jan@suchotzki.de>
 ENV WINE_MONO_VERSION 0.0.8
 USER root
 
-# winetricks is located in the contrib repository
-RUN echo "deb http://http.debian.net/debian jessie contrib" > /etc/apt/sources.list.d/contrib.list
+# Install some tools required for creating the image
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends \
+		curl \
+		unzip
 
 # Install wine and related packages
 RUN dpkg --add-architecture i386 \
 		&& apt-get update \
 		&& apt-get install -y --no-install-recommends \
-				curl \
-				unzip \
-				msttcorefonts \
 				wine \
 				wine32 \
 		&& rm -rf /var/lib/apt/lists/*
