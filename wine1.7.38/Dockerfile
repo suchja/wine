@@ -27,7 +27,7 @@ RUN dpkg --add-architecture i386 \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Use latest version of winetricks from github
-RUN curl -SL 'https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks' -o /usr/local/bin/winetricks \
+RUN curl -SL 'http://winetricks.org/winetricks' -o /usr/local/bin/winetricks \
 	&& chmod +x /usr/local/bin/winetricks
 
 # Wine really doesn't like to be run as root, so let's use a non-root user
