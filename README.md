@@ -26,18 +26,12 @@ This image provides the following core packages in addition to the ones containe
 I'm a big fan of the *separation of concerns (SoC)* principle. Therefore I try to create Dockerfiles with mainly one responsibility. Thus it happens that an image is using a base image, which is using another base image, ... Here you see all the base images used for this image:
 
 > [debian:jessie](https://github.com/tianon/docker-brew-debian/blob/188b27233cedf32048ee12378e8f8c6fc0fc0cb4/jessie/Dockerfile) / [ubuntu:14.04](https://github.com/tianon/docker-brew-ubuntu-core/blob/7fef77c821d7f806373c04675358ac6179eaeaf3/trusty/Dockerfile) depending on the chosen Tag.
->>[suchja/x11client](https://registry.hub.docker.com/u/suchja/x11client/dockerfile/) Display any X Window content in a separate container ([suchja/x11server](https://registry.hub.docker.com/u/suchja/x11server/))
+>>[suchja/x11client](https://registry.hub.docker.com/u/suchja/x11client/dockerfile/) Display any X Window content in a separate container
 >>>[suchja/wine](https://registry.hub.docker.com/u/suchja/wine/dockerfile/) This image
 
 ##Usage
 First of all you should decide for a [Tag](###Tags). In the following examples I'm assuming you go for the stable release, which is `suchja/wine:latest`
 .
-
-Independently of how you start the Wine (see below), you can tell Wine to provide you some additional debug output. Once the container is started, you can set the environment variable `WINEDEBUG` to another value. For example:
-
-`export WINEDEBUG=+all`
-
-This will tell Wine that it shall output any information, warnings or errors from all components. Please see [this page](http://wiki.winehq.org/DebugChannels) for additional information about Wine debug information.
 
 ###Headless (no GUI)
 If you don't care about any graphical output from Wine, you can simply start your container like this:
@@ -67,10 +61,6 @@ This will give you warnings indicating that the X server is not running or that 
 
 I haven't investigated it fully, but it seems that `wine wineboot --update` is better for creating the prefix than `wine wineboot --init`. During update wine-mono as well as wine-gecko is properly installed into the prefix. This seems not to be true for init. 
 
-Out of the box Wine is configured to run a 32-bit Windows (`WINEARCH=win32`). You can change this by setting the environment variable `WINEARCH` to nothing **before** you initialize your prefix. Simply type the following command:
-
-`export WINEARCH=''`
-
 Now your Wine bottle is ready to be tasted.
 
 ###Start using Wine
@@ -83,6 +73,37 @@ This only works if you have attached an X server. If you like to run a console a
 For me the above command resulted in seeing Notepad, but without the window title (including the options to close the window). It seems that this can be fixed by telling Wine to emualte a virtual desktop. Therefore the container includes the command `winegui`. This is an alias, which calls `wine` with some additional arguments and can be used like this:
 
 `winegui notpad.exe`
+
+###Environment variables
+Wine does support different environment variables which you can specify when starting a container from this image via `docker run -e VARIABLE_NAME=VALUE` or you set them interactively in the shell inside the started container via `export VARIABLE_NAME=VALUE`.
+
+`WINEDEBUG`
+
+Tells Wine to provide you some additional debug output. This variable is set to `-all`, which means no output at all is provided by Wine. Once the container is started, you can set the environment variable `WINEDEBUG` to another value. For example:
+
+`export WINEDEBUG=+all`
+
+This will tell Wine that it shall output any information, warnings or errors from all components. Please see [this page](http://wiki.winehq.org/DebugChannels) for additional information about Wine debug information.
+
+`WINEDLLOVERRIDES`
+
+Allows you to choose whether nativ DLLs shall be used or those from wine. One of the more frequently used use case is to tell Wine to not use wine-mono. This might be a good idea, if you like to run a native .NET framework version. If you like that, specify the following value:
+
+`export WINEDLLOVERRIDES=mscoree=d`
+
+See [this page](https://www.winehq.org/docs/wineusr-guide/x258) for additional information.
+
+`WINEARCH`
+
+Out of the box Wine is configured to run a 32-bit Windows (`WINEARCH=win32`). You can change this by setting the environment variable `WINEARCH` to nothing **before** you initialize your prefix. Simply type the following command:
+
+`export WINEARCH=''`
+
+Further details about this variable can be found [here](https://wiki.archlinux.org/index.php/Wine#WINEARCH)
+
+`WINEPREFIX`
+
+Wine needs a directory where it stores all windows files and configuration. This is called a prefix. This variable defines where the prefix is located. Wine will automatically create and configure this directory when you execute the first Wine command. The variable is set to `WINEPREFIX=/home/xclient/.wine` in the image. You can create more prefixes and set the variable to that prefix you currently like to use.
 
 ##Known problems
 While using this image in combination with [suchja/x11server](https://registry.hub.docker.com/u/suchja/x11server/) I experienced the following problems.
