@@ -33,12 +33,16 @@ I'm a big fan of the *separation of concerns (SoC)* principle. Therefore I try t
 First of all you should decide for a [Tag](###Tags). In the following examples I'm assuming you go for the stable release, which is `suchja/wine:latest`
 .
 
+**ATTENTION:** Please be aware that wine is a multi-process application. Everytime you run the `wine` command, it will start `wineserver` and several other processes, which are not child-processes of `wine`. That means, if you use this image as a base image and use something like `RUN wine your-app.exe` in a dockerfile, this will not work. The reason is that docker assumes wine is completed, once `RUN wine your-app.exe` returns. Unfortunately there are the other process which are still running. When they are killed by docker, this usually results in a corrupt wine prefix. So either use wine only interactively or wait after each call for `wineserver` to be finished.
+
 ###Headless (no GUI)
 If you don't care about any graphical output from Wine, you can simply start your container like this:
 
 `docker run --rm -it --entrypoint /bin/bash suchja/wine:latest`
 
 Using the `--entrypoint` option instead of providing a command, gives you some information on the command line each time Wine is trying to make some output into a window. Additionally it suppresses the execution of the entrypoint script from base image `suchja/x11client`.
+
+In this case you might also have a look into [wineconsole](http://wine-wiki.org/index.php/Wineconsole) and wine's [console user interface](https://www.winehq.org/site/docs/wineusr-guide/cui-programs). I have no experience with them, but will try them out.
 
 ###GUI via `suchja/x11server`
 If you like to see the graphical output, you first need to run a container based on [suchja/x11server](https://registry.hub.docker.com/u/suchja/x11server/):
@@ -55,11 +59,9 @@ The `--link display:xserver` and `--volumes-from display` option is only require
 ###Initialize Wine
 There is no initialized Wine prefix in the container. Thus your first action in the container should be something like:
 
-`wine wineboot --update`
+`wine wineboot --init`
 
 This will give you warnings indicating that the X server is not running or that $DISPLAY is not defined, if you have not properly linked to a running container of [suchja/x11server](https://registry.hub.docker.com/u/suchja/x11server/). Obviously this is okay and can be ignored, if Wine is only used to run console applications.
-
-I haven't investigated it fully, but it seems that `wine wineboot --update` is better for creating the prefix than `wine wineboot --init`. During update wine-mono as well as wine-gecko is properly installed into the prefix. This seems not to be true for init. 
 
 Now your Wine bottle is ready to be tasted.
 
