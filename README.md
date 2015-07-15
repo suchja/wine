@@ -6,9 +6,12 @@ My motivation for this image was to be able to create windows installer packages
 ###Tags
 This image is provided to you in different versions. You can pull those versions from docker hub by specifying the appropriate tag:
 
+**ATTENTION:** Separate tags for different development versions will be removed shortly. I'm planning to only have the `dev` tag in future. This will provide you the latest available wine development build from [Wine Team PPA](https://launchpad.net/~ubuntu-wine/+archive/ubuntu/ppa). In case you require a fixed version, it is probably best, if you go with `suchja/wine:latest`.
+
 - `suchja/wine:latest` - Provides the latest stable release of Wine (currently 1.6.2) based on a `debian:jessie` base image. Although this is the latest stable release of Wine, it is quite old (around 2 years). Thus not everything will properly work. **Docker images size: around 480MB**
 - `suchja/wine:dev1.7.38` - Provides one of the most recent development releases of Wine (version 1.7.38 from March 6, 2015). Wine seems to be best supported on Ubuntu. Thus up to date development releases are easily accessible for Ubunut users, but somehow difficult to get for Debian users. Therefore this image is based on `ubuntu:14.04`. **Docker image size: around 730MB**
 - `suchja/wine:dev1.7.44`- basically the same as `dev1.7.38`, but a newer development version of Wine (version 1.7.44 from May 29, 2015). **Docker image size: around 740MB**
+- `suchja/wine:dev`- Provides one of the most recent development releases of Wine (version 1.7.44 from May 29, 2015). Wine seems to be best supported on Ubuntu. Thus up to date development releases are easily accessible for Ubunut users, but somehow difficult to get for Debian users. Therefore this image is based on `ubuntu:14.04`. **Docker image size: around 740MB**
 
 As long as you have an application, which does not require a specific .NET framework version or you are doing other fancy things, you probably will be satisfied by `suchja/wine:latest`.
 
