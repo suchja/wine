@@ -7,12 +7,12 @@ My motivation for this image was to be able to create windows installer packages
 This image is provided to you in different versions. You can pull those versions from docker hub by specifying the appropriate tag:
 
 - `suchja/wine:latest` - Provides the latest stable release of Wine (currently 1.6.2) based on a `debian:jessie` base image. Although this is the latest stable release of Wine, it is quite old (around 2 years). Thus not everything will properly work. **Docker images size: around 480MB**
-- `suchja/wine:dev1.7.38` - Provides one of the most recent development releases of Wine (version 1.7.38 from March 6, 2015). Wine seems to be best supported on Ubuntu. Thus up to date development releases are easily accessible for Ubunut users, but somehow difficult to get for Debian users. Therefore this image is based on `ubuntu:14.04`. **Docker image size: around 850MB**
+- `suchja/wine:dev1.7.38` - Provides one of the most recent development releases of Wine (version 1.7.38 from March 6, 2015). Wine seems to be best supported on Ubuntu. Thus up to date development releases are easily accessible for Ubunut users, but somehow difficult to get for Debian users. Therefore this image is based on `ubuntu:14.04`. **Docker image size: around 730MB**
+- `suchja/wine:dev1.7.44`- basically the same as `dev1.7.38`, but a newer development version of Wine (version 1.7.44 from May 29, 2015). **Docker image size: around 740MB**
 
 As long as you have an application, which does not require a specific .NET framework version or you are doing other fancy things, you probably will be satisfied by `suchja/wine:latest`.
 
-I tried installing .NET 4.0 framework from Microsoft on `suchja/wine:latest` without any success. That's the reason why there is `suchja/wine:dev1.7.38`
-. So if you like to be on the bleeding edge of Wine or need for example a recent version of the .NET framework from Microsoft, this is the version for you.
+In case you require any of the latest bug fixes or need a bleeding edge version of wine, you can use `suchja/wine:dev1.7.44`. Although it is not the latest development version it is quite new.
 
 I'm working on a proper solution to base the stable and the development release on the same linux distribution. As I'm in favour of `debian:jessie`, I'm trying to get an up to date development release of Wine for it. However, getting signed packages or building Wine from scratch takes some more time for investigation.
 
@@ -33,7 +33,7 @@ I'm a big fan of the *separation of concerns (SoC)* principle. Therefore I try t
 First of all you should decide for a [Tag](###Tags). In the following examples I'm assuming you go for the stable release, which is `suchja/wine:latest`
 .
 
-**ATTENTION:** Please be aware that wine is a multi-process application. Everytime you run the `wine` command, it will start `wineserver` and several other processes, which are not child-processes of `wine`. That means, if you use this image as a base image and use something like `RUN wine your-app.exe` in a dockerfile, this will not work. The reason is that docker assumes wine is completed, once `RUN wine your-app.exe` returns. Unfortunately there are the other process which are still running. When they are killed by docker, this usually results in a corrupt wine prefix. So either use wine only interactively or wait after each call for `wineserver` to be finished.
+**ATTENTION:** Please be aware that wine is a multi-process application. Everytime you run the `wine` command, it will start `wineserver` and several other processes, which are not child-processes of `wine`. That means, if you use this image as a base image and use something like `RUN wine your-app.exe` in a dockerfile, this will not work. The reason is that docker assumes wine is completed, once `RUN wine your-app.exe` returns. Unfortunately there are the other process which are still running. When they are killed by docker, this usually results in a corrupt wine prefix. So either use wine only interactively or wait after each call for `wineserver` to be finished. See [suchja/wix](https://registry.hub.docker.com/u/suchja/wix/) image for an example of how to accomplish it.
 
 ###Headless (no GUI)
 If you don't care about any graphical output from Wine, you can simply start your container like this:
@@ -108,9 +108,12 @@ Further details about this variable can be found [here](https://wiki.archlinux.o
 Wine needs a directory where it stores all windows files and configuration. This is called a prefix. This variable defines where the prefix is located. Wine will automatically create and configure this directory when you execute the first Wine command. The variable is set to `WINEPREFIX=/home/xclient/.wine` in the image. You can create more prefixes and set the variable to that prefix you currently like to use.
 
 ##Known problems
-While using this image in combination with [suchja/x11server](https://registry.hub.docker.com/u/suchja/x11server/) I experienced the following problems.
+
+### `wine` should not be called in a Dockerfile
+See beging of [Usage](##Usage) section.
 
 ###X error ... BadValue
+While using this image in combination with [suchja/x11server](https://registry.hub.docker.com/u/suchja/x11server/) I experienced the following problems.
 From time to time I have seen the following error message after executing a Wine command (mostly after the first `wine wineboot --init`):
 
 ```
