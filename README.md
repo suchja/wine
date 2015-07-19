@@ -10,12 +10,11 @@ This image is provided to you in different versions. You can pull those versions
 
 - `suchja/wine:latest` - Provides the latest stable release of Wine (currently 1.6.2) based on a `debian:jessie` base image. Although this is the latest stable release of Wine, it is quite old (around 2 years). Thus not everything will properly work. **Docker images size: around 480MB**
 - `suchja/wine:dev1.7.38` - Provides one of the most recent development releases of Wine (version 1.7.38 from March 6, 2015). Wine seems to be best supported on Ubuntu. Thus up to date development releases are easily accessible for Ubunut users, but somehow difficult to get for Debian users. Therefore this image is based on `ubuntu:14.04`. **Docker image size: around 730MB**
-- `suchja/wine:dev1.7.44`- basically the same as `dev1.7.38`, but a newer development version of Wine (version 1.7.44 from May 29, 2015). **Docker image size: around 740MB**
 - `suchja/wine:dev`- Provides one of the most recent development releases of Wine (version 1.7.44 from May 29, 2015). Wine seems to be best supported on Ubuntu. Thus up to date development releases are easily accessible for Ubunut users, but somehow difficult to get for Debian users. Therefore this image is based on `ubuntu:14.04`. **Docker image size: around 740MB**
 
 As long as you have an application, which does not require a specific .NET framework version or you are doing other fancy things, you probably will be satisfied by `suchja/wine:latest`.
 
-In case you require any of the latest bug fixes or need a bleeding edge version of wine, you can use `suchja/wine:dev1.7.44`. Although it is not the latest development version it is quite new.
+In case you require any of the latest bug fixes or need a bleeding edge version of wine, you can use `suchja/wine:dev`. Although it is not the latest development version it is quite new.
 
 I'm working on a proper solution to base the stable and the development release on the same linux distribution. As I'm in favour of `debian:jessie`, I'm trying to get an up to date development release of Wine for it. However, getting signed packages or building Wine from scratch takes some more time for investigation.
 
