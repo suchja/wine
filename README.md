@@ -1,9 +1,9 @@
-##About
+## About
 Have you ever wanted to run an application for Microsoft Windows in a Docker container? I did and that is what you can use this image for.
 
 My motivation for this image was to be able to create windows installer packages (known as MSI). Thus I'm using this image as a base image for [suchja/wix](https://registry.hub.docker.com/u/suchja/wix/). I'm sure that there are lots of other use cases. If you have one, please leave a comment on the [docker hub repository for this image](https://registry.hub.docker.com/u/suchja/wine/).
 
-###Tags
+### Tags
 This image is provided to you in different versions. You can pull those versions from docker hub by specifying the appropriate tag:
 
 **Information:** `suchja/wine:dev1.7.38` is no longer available. It is replaced by `suchja/wine:dev`, which provides the latest available development release from [Wine Team PPA](https://launchpad.net/~ubuntu-wine/+archive/ubuntu/ppa). 
@@ -15,26 +15,26 @@ In case you require any of the latest bug fixes or need a bleeding edge version 
 
 I'm working on a proper solution to base the stable and the development release on the same Linux distribution. As I'm in favour of `debian:jessie`, I'm trying to get an up to date development release of Wine for it. However, getting signed packages or building Wine from scratch takes some more time for investigation.
 
-###Provided core packages
+### Provided core packages
 This image provides the following core packages in addition to the ones contained in the parent image(s):
 
 - [Wine](https://www.winehq.org) - Allows you to run applications developed for Microsoft Windows on a Linux machine
 - [winetricks](http://www.winetricks.org) - Tool to install and update some of the important packages for Wine (e.g. .NET Framework)
 
-###Docker image structure
+### Docker image structure
 I'm a big fan of the *separation of concerns (SoC)* principle. Therefore I try to create Dockerfiles with mainly one responsibility. Thus it happens that an image is using a base image, which is using another base image, ... Here you see all the base images used for this image:
 
 > [debian:jessie](https://github.com/tianon/docker-brew-debian/blob/188b27233cedf32048ee12378e8f8c6fc0fc0cb4/jessie/Dockerfile) / [ubuntu:14.04](https://github.com/tianon/docker-brew-ubuntu-core/blob/7fef77c821d7f806373c04675358ac6179eaeaf3/trusty/Dockerfile) depending on the chosen Tag.
 >>[suchja/x11client](https://registry.hub.docker.com/u/suchja/x11client/dockerfile/) Display any X Window content in a separate container
 >>>[suchja/wine](https://registry.hub.docker.com/u/suchja/wine/dockerfile/) This image
 
-##Usage
+## Usage
 First of all you should decide for a [Tag](###Tags). In the following examples I'm assuming you go for the stable release, which is `suchja/wine:latest`
 .
 
 **ATTENTION:** Please be aware that wine is a multi-process application. Everytime you run the `wine` command, it will start `wineserver` and several other processes, which are not child-processes of `wine`. That means, if you use this image as a base image and use something like `RUN wine your-app.exe` in a dockerfile, this will not work. The reason is that docker assumes wine is completed, once `RUN wine your-app.exe` returns. Unfortunately there are the other process which are still running. When they are killed by docker, this usually results in a corrupt wine prefix. So either use wine only interactively or wait after each call for `wineserver` to be finished. See [suchja/wix](https://registry.hub.docker.com/u/suchja/wix/) image for an example of how to accomplish it.
 
-###Headless (no GUI)
+### Headless (no GUI)
 If you don't care about any graphical output from Wine, you can simply start your container like this:
 
 `docker run --rm -it --entrypoint /bin/bash suchja/wine:latest`
@@ -43,7 +43,7 @@ Using the `--entrypoint` option instead of providing a command, gives you some i
 
 In this case you might also have a look into [wineconsole](http://wine-wiki.org/index.php/Wineconsole) and wine's [console user interface](https://www.winehq.org/site/docs/wineusr-guide/cui-programs). I have no experience with them, but will try them out.
 
-###GUI via `suchja/x11server`
+### GUI via `suchja/x11server`
 If you like to see the graphical output, you first need to run a container based on [suchja/x11server](https://registry.hub.docker.com/u/suchja/x11server/):
 Starting a container from this image can be done as follows:
 
@@ -55,7 +55,7 @@ Now you can start the Wine container like this:
 
 The `--link display:xserver` and `--volumes-from display` option is only required, if graphical output from Wine shall be shown via [suchja/x11server](https://registry.hub.docker.com/u/suchja/x11server/). Otherwise these two options can be omitted. Then `wine` will show warning messages, because it is not able to display graphical output.
 
-###Initialize Wine
+### Initialize Wine
 There is no initialized Wine prefix in the container. Thus your first action in the container should be something like:
 
 `wine wineboot --init`
@@ -64,7 +64,7 @@ This will give you warnings indicating that the X server is not running or that 
 
 Now your Wine bottle is ready to be tasted.
 
-###Start using Wine
+### Start using Wine
 After initializing your Wine prefix you can verify that it is properly running by starting Notepad:
 
 `wine notepad.exe`
@@ -75,7 +75,7 @@ For me the above command resulted in seeing Notepad, but without the window titl
 
 `winegui notpad.exe`
 
-###Environment variables
+### Environment variables
 Wine does support different environment variables which you can specify when starting a container from this image via `docker run -e VARIABLE_NAME=VALUE` or you set them interactively in the shell inside the started container via `export VARIABLE_NAME=VALUE`.
 
 `WINEDEBUG`
@@ -106,12 +106,12 @@ Further details about this variable can be found [here](https://wiki.archlinux.o
 
 Wine needs a directory where it stores all windows files and configuration. This is called a prefix. This variable defines where the prefix is located. Wine will automatically create and configure this directory when you execute the first Wine command. The variable is set to `WINEPREFIX=/home/xclient/.wine` in the image. You can create more prefixes and set the variable to that prefix you currently like to use.
 
-##Known problems
+## Known problems
 
 ### `wine` should not be called in a Dockerfile
 See beging of [Usage](##Usage) section.
 
-###X error ... BadValue
+### X error ... BadValue
 While using this image in combination with [suchja/x11server](https://registry.hub.docker.com/u/suchja/x11server/) I experienced the following problems.
 From time to time I have seen the following error message after executing a Wine command (mostly after the first `wine wineboot --init`):
 
@@ -126,10 +126,10 @@ X Error of failed request:  BadValue (integer parameter out of range for operati
 
 I haven't figured out the exact reason for it, but it seems that it is somehow related to the remote X server. As far as I can tell it does not have any impact, but maybe somebody with more knowledge about X Window and/or Wine can point me into the right direction.
 
-##Maintenance
+## Maintenance
 I do not have a dedicated maintenance schedule for this image. In case a new stable version of Wine is released, I might update the image accordingly.
 
 If you experience any problems with the image, open up an issue on the [source repository](https://github.com/suchja/wine). I'll look into it as soon as possible.
 
-##Copyright free
+## Copyright free
 The sources in [this](https://github.com/suchja/wine) Github repository, from which the docker image is build, are copyright free (see LICENSE.md). Thus you are allowed to use these sources (e.g. Dockerfile and README.md) in which ever way you like.
