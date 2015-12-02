@@ -8,8 +8,6 @@ My motivation for this image was to be able to create windows installer packages
 
 This image is provided to you in different versions. You can pull those versions from docker hub by specifying the appropriate tag:
 
-**Information:** `suchja/wine:dev1.7.38` is no longer available. It is replaced by `suchja/wine:dev`, which provides the latest available development release from [Wine Team PPA](https://launchpad.net/~ubuntu-wine/+archive/ubuntu/ppa). 
-
 - `suchja/wine:latest` - Provides the latest stable release of Wine (currently 1.6.2) based on a `debian:jessie` base image. Although this is the latest stable release of Wine, it is quite old (around 2 years). Thus not everything will properly work. **Docker images size: around 445MB**
 - `suchja/wine:dev`- Provides one of the most recent development releases of Wine (version 1.7.50 from August 27, 2015). Wine seems to be best supported on Ubuntu. Thus up to date development releases are easily accessible for Ubunut users, but somehow difficult to get for Debian users. Therefore this image is based on `ubuntu:14.04`. **Docker image size: around 740MB**
 
