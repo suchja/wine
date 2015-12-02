@@ -8,8 +8,8 @@ My motivation for this image was to be able to create windows installer packages
 
 This image is provided to you in different versions. You can pull those versions from docker hub by specifying the appropriate tag:
 
-- `suchja/wine:latest` - Provides the latest stable release of Wine (currently 1.6.2) based on a `debian:jessie` base image. Although this is the latest stable release of Wine, it is quite old (around 2 years). Thus not everything will properly work. **Docker images size: around 445MB**
-- `suchja/wine:dev`- Provides one of the most recent development releases of Wine (version 1.7.50 from August 27, 2015). Wine seems to be best supported on Ubuntu. Thus up to date development releases are easily accessible for Ubunut users, but somehow difficult to get for Debian users. Therefore this image is based on `ubuntu:14.04`. **Docker image size: around 740MB**
+- `suchja/wine:latest` - Provides the latest stable release of Wine (currently 1.6.2) based on a `debian:jessie` base image. Although this is the latest stable release of Wine, it is quite old (around 2 years). Thus not everything will properly work. This image also uses a pretty old version of mono for wine, because the newer versions might not properly function with the old wine version. **Docker images size: around 445MB**
+- `suchja/wine:dev`- Provides one of the most recent development releases of Wine (version 1.7.55 from November 17, 2015). Wine seems to be best supported on Ubuntu. Thus up to date development releases are easily accessible for Ubunut users, but somehow difficult to get for Debian users. Therefore this image is based on `ubuntu:14.04`. **Docker image size: around 740MB**
 
 In case you require any of the latest bug fixes or need a bleeding edge version of wine, you can use `suchja/wine:dev`. Although it is not the latest development version it is quite new. Otherwise you should be fine with `suchja/wine:latest`, which provides the latest stable release.
 
@@ -49,8 +49,7 @@ In this case you might also have a look into [wineconsole](http://wine-wiki.org/
 
 ### GUI via `suchja/x11server`
 
-If you like to see the graphical output, you first need to run a container based on [suchja/x11server](https://registry.hub.docker.com/u/suchja/x11server/):
-Starting a container from this image can be done as follows:
+If you like to see the graphical output, you first need to run a container based on [suchja/x11server](https://registry.hub.docker.com/u/suchja/x11server/) like this:
 
 `docker run -d --name display -e VNC_PASSWORD=newPW -p 5900:5900 suchja/x11server`
 
