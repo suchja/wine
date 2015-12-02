@@ -5,7 +5,7 @@ USER root
 
 # Define which versions we need
 ENV WINE_MONO_VERSION 4.5.6
-ENV WINE_GECKO_VERSION 2.36
+ENV WINE_GECKO_VERSION 2.40
 
 # Install packages for building the image
 RUN apt-get update -y \
@@ -26,7 +26,7 @@ RUN dpkg --add-architecture i386 \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Use latest version of winetricks from github
-RUN curl -SL 'http://winetricks.org/winetricks' -o /usr/local/bin/winetricks \
+RUN curl -SL 'https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks' -o /usr/local/bin/winetricks \
 	&& chmod +x /usr/local/bin/winetricks
 
 # Wine really doesn't like to be run as root, so let's use a non-root user
