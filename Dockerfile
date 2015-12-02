@@ -9,7 +9,8 @@ USER root
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
 		curl \
-		unzip
+		unzip \
+		ca-certificates
 
 # Install wine and related packages
 RUN dpkg --add-architecture i386 \
@@ -20,7 +21,7 @@ RUN dpkg --add-architecture i386 \
 		&& rm -rf /var/lib/apt/lists/*
 
 # Use the latest version of winetricks
-RUN curl -SL 'http://winetricks.org/winetricks' -o /usr/local/bin/winetricks \
+RUN curl -SL 'https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks' -o /usr/local/bin/winetricks \
 		&& chmod +x /usr/local/bin/winetricks
 
 # Get latest version of mono for wine
