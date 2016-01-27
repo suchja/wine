@@ -19,7 +19,7 @@ RUN apt-get update -y \
 RUN dpkg --add-architecture i386 \
 	&& apt-get update -y \
 	&& apt-get install -y --no-install-recommends \
-		wine1.7 \
+		wine1.8 \
 		wine-gecko$WINE_GECKO_VERSION:i386 \
 		wine-gecko$WINE_GECKO_VERSION:amd64 \
 		wine-mono$WINE_MONO_VERSION \

@@ -6,10 +6,12 @@ My motivation for this image was to be able to create windows installer packages
 
 ### Tags
 
+**HINT:** Recently version 1.8 was released, which is a new stable release. So far the most recent development version (1.9.2) is not available from "Wine Team PPA". Thus both images (latest and dev) include the same version (1.8). As soon as a new development version is available this will be used.
+
 This image is provided to you in different versions. You can pull those versions from docker hub by specifying the appropriate tag:
 
 - `suchja/wine:latest` - Provides the latest stable release of Wine (currently 1.6.2) based on a `debian:jessie` base image. Although this is the latest stable release of Wine, it is quite old (around 2 years). Thus not everything will properly work. This image also uses a pretty old version of mono for wine, because the newer versions might not properly function with the old wine version. **Docker images size: around 445MB**
-- `suchja/wine:dev`- Provides one of the most recent development releases of Wine (version 1.7.55 from November 17, 2015). Wine seems to be best supported on Ubuntu. Thus up to date development releases are easily accessible for Ubunut users, but somehow difficult to get for Debian users. Therefore this image is based on `ubuntu:14.04`. **Docker image size: around 740MB**
+- `suchja/wine:dev`- Provides one of the most recent development releases of Wine (version 1.8 from December 24, 2015). Wine seems to be best supported on Ubuntu. Thus up to date development releases are easily accessible for Ubunut users, but somehow difficult to get for Debian users. Therefore this image is based on `ubuntu:14.04`. **Docker image size: around 740MB**
 
 In case you require any of the latest bug fixes or need a bleeding edge version of wine, you can use `suchja/wine:dev`. Although it is not the latest development version it is quite new. Otherwise you should be fine with `suchja/wine:latest`, which provides the latest stable release.
 
@@ -71,7 +73,11 @@ Now your Wine bottle is ready to be tasted.
 
 ### Start using Wine
 
-After initializing your Wine prefix you can verify that it is properly running by starting Notepad:
+After initializing your Wine prefix you can verify that you are running the expected version:
+
+`wine --version`
+
+The next check is to start Notepad and verify that GUI works:
 
 `wine notepad.exe`
 
@@ -80,6 +86,11 @@ This only works if you have attached an X server. If you like to run a console a
 For me the above command resulted in seeing Notepad, but without the window title (including the options to close the window). It seems that this can be fixed by telling Wine to emualte a virtual desktop. Therefore the container includes the command `winegui`. This is an alias, which calls `wine` with some additional arguments and can be used like this:
 
 `winegui notpad.exe`
+
+An alternative to using `winegui` is to change the configuration of the "Graphics" via `winecfg` (thanks to dagelf for pointing this out in the comments). This can be accomplished by calling `winecfg`, switching to the "Graphcis" tab and deselecting the following two options:
+
+- Allow the window manager to decorate the windows
+- Allow the window manager to control the windows
 
 ### Environment variables
 
