@@ -47,7 +47,7 @@ If you don't care about any graphical output from Wine, you can simply start you
 
 Using the `--entrypoint` option instead of providing a command, gives you some information on the command line each time Wine is trying to make some output into a window. Additionally it suppresses the execution of the entrypoint script from base image `suchja/x11client`.
 
-In this case you might also have a look into [wineconsole](http://wine-wiki.org/index.php/Wineconsole) and wine's [console user interface](https://www.winehq.org/site/docs/wineusr-guide/cui-programs). I have no experience with them, but will try them out.
+In this case you might also have a look into [wineconsole](http://wine-wiki.org/index.php/Wineconsole) and wine's [console user interface]( https://www.winehq.org/docs/wineusr-guide/cui-programs). I have no experience with them, but will try them out.
 
 ### GUI via `suchja/x11server`
 
